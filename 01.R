@@ -1,8 +1,20 @@
 library(tidyverse)
-library(microbenchmark)
 
-microbenchmark({
-  
+# Vectorized version
+
+read_file("input01") %>%
+  str_split("\\n\\n") %>%
+  unlist %>%
+  map_int(~ str_split(., "\\n") %>%
+            unlist %>%
+            as.integer %>%
+            sum(na.rm = TRUE)) -> elves
+
+print(max(elves))
+print(sum(tail(sort(elves), 3)))
+
+# Iterative version
+
 readLines("input01") %>%
   as.numeric -> cals
 
@@ -17,7 +29,4 @@ for (i in 1:length(cals)) {
 elves <- unlist(elves)
 
 print(max(elves))
-elves <- sort(elves)
-print(sum(tail(elves, 3)))
-
-})
+print(sum(tail(sort(elves), 3)))
