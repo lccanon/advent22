@@ -1,6 +1,7 @@
 library(tidyverse)
 
-read_delim("input02", delim = " ", col_names = c("opponent", "you")) -> guide
+read_delim("input02", delim = " ", col_names = c("opponent", "you"),
+           show_col_types = FALSE) -> guide
 
 shape <- tribble(
   ~you, ~shape1, ~score2,
@@ -26,4 +27,3 @@ guide %>%
   inner_join(shape, by = "you") %>%
   inner_join(scoring, by = c("opponent", "you")) %>%
   summarize(score1 = sum(shape1 + score1), score2 = sum(shape2 + score2))
-

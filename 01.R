@@ -3,15 +3,13 @@ library(tidyverse)
 # Vectorized version
 
 read_file("input01") %>%
-  str_split("\\n\\n") %>%
-  unlist %>%
-  map_int(~ str_split(., "\\n") %>%
-            unlist %>%
+  str_split("\\n\\n", simplify = TRUE) %>%
+  map_int(~ str_split(., "\\n", simplify = TRUE) %>%
             as.integer %>%
             sum(na.rm = TRUE)) -> elves
 
-print(max(elves))
-print(sum(tail(sort(elves), 3)))
+max(elves)
+sum(tail(sort(elves), 3))
 
 # Iterative version
 
@@ -28,5 +26,5 @@ for (i in 1:length(cals)) {
 }
 elves <- unlist(elves)
 
-print(max(elves))
-print(sum(tail(sort(elves), 3)))
+max(elves)
+sum(tail(sort(elves), 3))
