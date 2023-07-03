@@ -1,3 +1,5 @@
+library(tidyverse)
+
 insts <- read_lines("input07")
 
 sizes <- list()
