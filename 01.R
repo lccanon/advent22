@@ -1,6 +1,19 @@
-library(tidyverse)
+# Vectorized (base R)
 
-# Vectorized version
+readLines("input01") %>%
+  as.numeric -> cals
+
+cals[is.na(cals)] <- 0
+rr <- rle(cumsum(cals))
+cs <- rr$values[rr$length == 2]
+elves <- c(cs[1], diff(cs))
+
+max(elves)
+sum(tail(sort(elves), 3))
+
+# Vectorized (tidyverse)
+
+library(tidyverse)
 
 read_file("input01") %>%
   str_split("\\n\\n", simplify = TRUE) %>%

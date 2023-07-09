@@ -13,7 +13,7 @@ for (i in 1:nrow(heights))
         all(heights[i,j] > tail(heights[,j], -i)) ||
         all(heights[i,j] > tail(heights[i,], -j)))
       visible <- visible + 1
-print(visible)
+visible
 
 score <- 0
 hh <- cbind(max(heights) + 1,
@@ -30,28 +30,16 @@ for (i in 2:(nrow(hh) - 1))
                    min(up, i - 2) *
                    min(down, nrow(hh) - i - 1))
   }
-print(score)
+score
 
 # Vectorized alternative
 
-visible <- heights * FALSE
-score <- heights * 0 + 1
-for (k in 1:4) {
-  # Part 1
-  visible[,1] <- TRUE
-  visible[,2] <- visible[,2] | heights[,2] > heights[,1]
-  for (j in 3:ncol(heights))
-    visible[,j] <- visible[,j] | apply(heights[,j] > heights[,1:(j - 1)], 1, all)
-  # Part 2
-  local_score <- score * 0
-  for (j in 1:(ncol(heights) - 2))
-    local_score[,j] <- pmin(apply(heights[,j] <= heights[,(j + 1):ncol(heights)], 1,
-                                  \(x) which(x)[1]), ncol(heights) - j, na.rm = TRUE)
-  local_score[,ncol(heights) - 1] <- heights[,ncol(heights) - 1] > heights[,ncol(heights)]
-  score <- score * local_score
-  # Rotate matrices
-  heights <- t(apply(heights, 2, rev))
-  visible <- t(apply(visible, 2, rev))
-  score <- t(apply(score, 2, rev))
-}
-print(c(sum(visible), max(score)))
+vis_row <- \(x) x > c(-1, cummax(head(x, -1)))
+vis_row_bi <- \(x) vis_row(x) | rev(vis_row(rev(x)))
+visible <- apply(heights, 1, vis_row_bi) %>% t | apply(heights, 2, vis_row_bi)
+sum(visible)
+
+score_row <- \(x) sapply(seq_along(x), \(i) min(which(x[i] <= tail(x, -i))[1], ncol(heights) - i, na.rm = TRUE))
+score_row_bi <- \(x) score_row(x) * rev(score_row(rev(x)))
+score <- apply(heights, 1, score_row_bi) %>% t * apply(heights, 2, score_row_bi)
+max(score)
