@@ -5,6 +5,8 @@ read_lines("input08") %>%
   map(as.integer) %>%
   do.call(what = rbind) -> heights
 
+# Iterative version
+
 visible <- 0
 for (i in 1:nrow(heights))
   for (j in 1:ncol(heights))
@@ -32,7 +34,7 @@ for (i in 2:(nrow(hh) - 1))
   }
 score
 
-# Vectorized alternative
+# Vectorized (base R)
 
 vis_row <- \(x) x > c(-1, cummax(head(x, -1)))
 vis_row_bi <- \(x) vis_row(x) | rev(vis_row(rev(x)))
