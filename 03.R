@@ -4,8 +4,8 @@ read_csv("input03", col_names = "sack", show_col_types = FALSE) %>%
   mutate(first = str_sub(sack, end = str_length(sack) / 2)) %>%
   mutate(last = str_sub(sack, start = str_length(sack) / 2 + 1)) %>%
   rowwise() %>%
-  mutate(common = intersect(str_split(first, "", simplify = TRUE),
-                            str_split(last, "", simplify = TRUE))) %>%
+  mutate(common = intersect(str_split_1(first, ""),
+                            str_split_1(last, ""))) %>%
   ungroup() %>%
   mutate(score = match(common, c(letters, LETTERS))) %>%
   summarise(score = sum(score))

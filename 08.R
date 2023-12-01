@@ -41,7 +41,8 @@ vis_row_bi <- \(x) vis_row(x) | rev(vis_row(rev(x)))
 visible <- apply(heights, 1, vis_row_bi) %>% t | apply(heights, 2, vis_row_bi)
 sum(visible)
 
-score_row <- \(x) sapply(seq_along(x), \(i) min(which(x[i] <= tail(x, -i))[1], ncol(heights) - i, na.rm = TRUE))
+score_row <- \(x) sapply(seq_along(x), \(i) min(which(x[i] <= tail(x, -i))[1],
+                                                ncol(heights) - i, na.rm = TRUE))
 score_row_bi <- \(x) score_row(x) * rev(score_row(rev(x)))
 score <- apply(heights, 1, score_row_bi) %>% t * apply(heights, 2, score_row_bi)
 max(score)

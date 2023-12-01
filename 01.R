@@ -16,8 +16,8 @@ sum(tail(sort(elves), 3))
 library(tidyverse)
 
 read_file("input01") %>%
-  str_split("\\n\\n", simplify = TRUE) %>%
-  map_int(~ str_split(., "\\n", simplify = TRUE) %>%
+  str_split_1("\\n\\n") %>%
+  map_int(~ str_split_1(., "\\n") %>%
             as.integer %>%
             sum(na.rm = TRUE)) -> elves
 

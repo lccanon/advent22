@@ -1,12 +1,12 @@
 library(tidyverse)
 
-motions <- read_delim("input09", delim = " ", col_names = c("dir", "step"))
+motions <- read_table("input09", col_names = c("dir", "step"))
 
 N <- 1000
 L <- 10
 
 grid <- matrix(0, ncol = N, nrow = N)
-rope <- tibble(x = rep(N / 2, L), y = rep(N / 2, L)) %>% as.matrix()
+rope <- cbind(x = rep(N / 2, L), y = rep(N / 2, L))
 dirs <- list("R" = c(0, 1), "L" = c(0, -1), "U" = c(-1, 0), "D" = c(1, 0))
 
 grid[rope[L,"x"],rope[L,"y"]] <- 1
@@ -33,7 +33,7 @@ sum(grid)
 
 # Alternative solutions from reddit
 
-motions <- read_delim("input09", delim = " ", col_names = c("dir", "step"))
+motions <- read_table("input09", col_names = c("dir", "step"))
 L <- 10
 
 dirs <- c("R" = 1, "L" = -1, "U" = -1i, "D" = 1i)

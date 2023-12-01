@@ -3,7 +3,7 @@ library(tidyverse)
 # Base version
 
 read_file("input10") %>%
-  str_split("[ \\n]", simplify = TRUE) %>%
+  str_split_1("[ \\n]") %>%
   as.integer -> X
 X[is.na(X)] <- 0
 X <- cumsum(c(1L, X))
@@ -12,7 +12,7 @@ strengths <- X * seq_along(X)
 sum(strengths[seq(20, 220, 40)])
 
 X <- head(X, 6 * 40)
-pixels <- (abs((1:240 - 1) %% 40 - X) <= 1) %>%
+pixels <- (abs(0:39 - X) <= 1) %>%
   matrix(ncol = 40, byrow = TRUE)
 image(pixels[6:1,] %>% t)
 ifelse(pixels, "X", " ") %>%

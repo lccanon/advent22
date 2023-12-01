@@ -1,7 +1,7 @@
 library(tidyverse)
 
 read_file("input05") %>%
-  str_split("\\n\\n", simplify = TRUE) %>%
+  str_split_1("\\n\\n") %>%
   str_split("\\n") -> input
 
 input[[1]] %>%
