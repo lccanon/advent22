@@ -10,8 +10,8 @@ input <- cbind(input, dist = abs(input[,1] - input[,3]) + abs(input[,2] - input[
 x_range <- range(input[,c(1,3)])
 y_range <- range(input[,c(2,4)])
 
-y <- 2000000
 x <- (x_range[1] - max(input[,"dist"])):(x_range[2] + max(input[,"dist"]))
+y <- 2000000
 inside <- rep(FALSE, length(x))
 for (i in 1:nrow(input))
   inside <- inside | abs(x - input[i,1]) + abs(y - input[i,2]) <= input[i,"dist"]
